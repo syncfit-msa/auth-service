@@ -1,14 +1,23 @@
 package com.amcamp.infra.config.jwt;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import lombok.Getter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import lombok.AllArgsConstructor;
+
+@RefreshScope
+@AllArgsConstructor
+@Getter
 @ConfigurationProperties(prefix = "jwt")
-public record JwtProperties(
-        String accessTokenSecret,
-        String refreshTokenSecret,
-        Long accessTokenExpirationTime,
-        Long refreshTokenExpirationTime,
-        String issuer) {
+public class JwtProperties {
+
+    private String accessTokenSecret;
+    private String refreshTokenSecret;
+    private Long accessTokenExpirationTime;
+    private Long refreshTokenExpirationTime;
+    private String issuer;
+
     public Long accessTokenExpirationMilliTime() {
         return accessTokenExpirationTime * 1000;
     }

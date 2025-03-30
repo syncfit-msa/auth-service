@@ -15,10 +15,10 @@ public class KakaoService {
 
     public IdTokenResponse getIdToken(String code) {
         return kakaoOauthClient.getIdToken(
-                kakaoProperties.grantType(),
-                kakaoProperties.clientId(),
-                kakaoProperties.redirectUri(),
+                kakaoProperties.getGrantType(),
+                kakaoProperties.getClientId(),
+                kakaoProperties.getRedirectUri(),
                 code,
-                kakaoProperties.clientSecret());
+                kakaoProperties.getClientSecret());
     }
 }

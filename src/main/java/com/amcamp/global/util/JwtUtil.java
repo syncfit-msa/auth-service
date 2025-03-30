@@ -42,7 +42,7 @@ public class JwtUtil {
                 new Date(issuedAt.getTime() + jwtProperties.refreshTokenExpirationMilliTime());
         String tokenValue = buildRefreshToken(memberId, issuedAt, expiredAt);
         return new RefreshTokenDto(
-                memberId, tokenValue, jwtProperties.refreshTokenExpirationTime());
+                memberId, tokenValue, jwtProperties.getRefreshTokenExpirationTime());
     }
 
     public AccessTokenDto parseAccessToken(String accessTokenValue) throws ExpiredJwtException {
@@ -67,7 +67,7 @@ public class JwtUtil {
             return RefreshTokenDto.of(
                     Long.parseLong(claims.getBody().getSubject()),
                     refreshTokenValue,
-                    jwtProperties.refreshTokenExpirationTime());
+                    jwtProperties.getRefreshTokenExpirationTime());
         } catch (ExpiredJwtException e) {
             throw e;
         } catch (Exception e) {
@@ -83,21 +83,21 @@ public class JwtUtil {
     }
 
     public long getRefreshTokenExpirationTime() {
-        return jwtProperties.refreshTokenExpirationTime();
+        return jwtProperties.getRefreshTokenExpirationTime();
     }
 
     private Key getAccessTokenKey() {
-        return Keys.hmacShaKeyFor(jwtProperties.accessTokenSecret().getBytes());
+        return Keys.hmacShaKeyFor(jwtProperties.getAccessTokenSecret().getBytes());
     }
 
     private Key getRefreshTokenKey() {
-        return Keys.hmacShaKeyFor(jwtProperties.refreshTokenSecret().getBytes());
+        return Keys.hmacShaKeyFor(jwtProperties.getRefreshTokenSecret().getBytes());
     }
 
     private String buildAccessToken(
             Long memberId, MemberRole memberRole, Date issuedAt, Date expiredAt) {
         return Jwts.builder()
-                .setIssuer(jwtProperties.issuer())
+                .setIssuer(jwtProperties.getIssuer())
                 .setSubject(memberId.toString())
                 .claim("role", memberRole.name())
                 .setIssuedAt(issuedAt)
@@ -109,7 +109,7 @@ public class JwtUtil {
     private String buildRefreshToken(
             Long memberId, Date issuedAt, Date expiredAt) {
         return Jwts.builder()
-                .setIssuer(jwtProperties.issuer())
+                .setIssuer(jwtProperties.getIssuer())
                 .setSubject(memberId.toString())
                 .setIssuedAt(issuedAt)
                 .setExpiration(expiredAt)
@@ -119,7 +119,7 @@ public class JwtUtil {
 
     private Jws<Claims> getClaims(String token, Key key) {
         return Jwts.parserBuilder()
-                .requireIssuer(jwtProperties.issuer())
+                .requireIssuer(jwtProperties.getIssuer())
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token);

@@ -3,6 +3,13 @@ spring:
     name: user-service
   config:
     import: optional:configserver:http://127.0.0.1:8888/
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+
   profiles:
     active: local
     include:
@@ -11,3 +18,8 @@ spring:
       - security
       - openfeign
       - eureka
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh,health,info
