@@ -45,7 +45,7 @@ public class IdTokenVerifier {
     private void validateAudience(OidcIdToken oidcIdToken) {
         String idTokenAudience = oidcIdToken.getAudience().get(0);
 
-        if (idTokenAudience == null || !idTokenAudience.equals(kakaoProperties.getClientId())) {
+        if (idTokenAudience == null || !idTokenAudience.equals(kakaoProperties.clientId())) {
             throw new CustomException(ErrorCode.ID_TOKEN_VERIFICATION_FAILED);
         }
     }

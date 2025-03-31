@@ -1,18 +1,13 @@
 package com.amcamp.infra.config.oauth;
 
-import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import lombok.AllArgsConstructor;
+import org.springframework.boot.context.properties.bind.ConstructorBinding;
 
-@RefreshScope
-@AllArgsConstructor
-@Getter
+
 @ConfigurationProperties(prefix = "oauth.kakao")
-public class KakaoProperties {
-
-    private String clientId;
-    private String clientSecret;
-    private String redirectUri;
-    private String grantType;
+public record KakaoProperties(
+        String clientId,
+        String clientSecret,
+        String redirectUri,
+        String grantType) {
 }

@@ -1,0 +1,17 @@
+spring:
+  config:
+    import: optional:configserver:http://127.0.0.1:8888/
+  cloud:
+    config:
+      name: auth-service
+  application:
+    name: auth-service
+  profiles:
+    active: local
+    include:
+      - redis
+      - datasource
+      - security
+      - openfeign
+      - eureka
+      - actuator
